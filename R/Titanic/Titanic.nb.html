@@ -1754,13 +1754,79 @@ summary {
 <!-- rnb-text-begin -->
 <p>This is the Titanic project from Kaggle for Machine Learning. I’m using this file as a practice for analyzing datasets as well as practicing statistical analysis methods.</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Cmd+Option+I</em>.</p>
-<p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
-<p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGRhdGEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>str(data)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0ODkxIG9icy4gb2YgIDEyIHZhcmlhYmxlczpcbiAkIFBhc3NlbmdlcklkOiBpbnQgIDEgMiAzIDQgNSA2IDcgOCA5IDEwIC4uLlxuICQgU3Vydml2ZWQgICA6IGludCAgMCAxIDEgMSAwIDAgMCAwIDEgMSAuLi5cbiAkIFBjbGFzcyAgICAgOiBpbnQgIDMgMSAzIDEgMyAzIDEgMyAzIDIgLi4uXG4gJCBOYW1lICAgICAgIDogY2hyICBcIkJyYXVuZCwgTXIuIE93ZW4gSGFycmlzXCIgXCJDdW1pbmdzLCBNcnMuIEpvaG4gQnJhZGxleSAoRmxvcmVuY2UgQnJpZ2dzIFRoYXllcilcIiBcIkhlaWtraW5lbiwgTWlzcy4gTGFpbmFcIiBcIkZ1dHJlbGxlLCBNcnMuIEphY3F1ZXMgSGVhdGggKExpbHkgTWF5IFBlZWwpXCIgLi4uXG4gJCBTZXggICAgICAgIDogY2hyICBcIm1hbGVcIiBcImZlbWFsZVwiIFwiZmVtYWxlXCIgXCJmZW1hbGVcIiAuLi5cbiAkIEFnZSAgICAgICAgOiBudW0gIDIyIDM4IDI2IDM1IDM1IE5BIDU0IDIgMjcgMTQgLi4uXG4gJCBTaWJTcCAgICAgIDogaW50ICAxIDEgMCAxIDAgMCAwIDMgMCAxIC4uLlxuICQgUGFyY2ggICAgICA6IGludCAgMCAwIDAgMCAwIDAgMCAxIDIgMCAuLi5cbiAkIFRpY2tldCAgICAgOiBjaHIgIFwiQS81IDIxMTcxXCIgXCJQQyAxNzU5OVwiIFwiU1RPTi9PMi4gMzEwMTI4MlwiIFwiMTEzODAzXCIgLi4uXG4gJCBGYXJlICAgICAgIDogbnVtICA3LjI1IDcxLjI4IDcuOTIgNTMuMSA4LjA1IC4uLlxuICQgQ2FiaW4gICAgICA6IGNociAgXCJcIiBcIkM4NVwiIFwiXCIgXCJDMTIzXCIgLi4uXG4gJCBFbWJhcmtlZCAgIDogY2hyICBcIlNcIiBcIkNcIiBcIlNcIiBcIlNcIiAuLi5cbiJ9 -->
+<pre><code>&#39;data.frame&#39;:   891 obs. of  12 variables:
+ $ PassengerId: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Survived   : int  0 1 1 1 0 0 0 0 1 1 ...
+ $ Pclass     : int  3 1 3 1 3 3 1 3 3 2 ...
+ $ Name       : chr  &quot;Braund, Mr. Owen Harris&quot; &quot;Cumings, Mrs. John Bradley (Florence Briggs Thayer)&quot; &quot;Heikkinen, Miss. Laina&quot; &quot;Futrelle, Mrs. Jacques Heath (Lily May Peel)&quot; ...
+ $ Sex        : chr  &quot;male&quot; &quot;female&quot; &quot;female&quot; &quot;female&quot; ...
+ $ Age        : num  22 38 26 35 35 NA 54 2 27 14 ...
+ $ SibSp      : int  1 1 0 1 0 0 0 3 0 1 ...
+ $ Parch      : int  0 0 0 0 0 0 0 1 2 0 ...
+ $ Ticket     : chr  &quot;A/5 21171&quot; &quot;PC 17599&quot; &quot;STON/O2. 3101282&quot; &quot;113803&quot; ...
+ $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...
+ $ Cabin      : chr  &quot;&quot; &quot;C85&quot; &quot;&quot; &quot;C123&quot; ...
+ $ Embarked   : chr  &quot;S&quot; &quot;C&quot; &quot;S&quot; &quot;S&quot; ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><em>note from Kaggle that Sibsp = the number of siblings or spouse on the titanic and Parch = number of parents or children on the titanic</em></p>
+<p>Since there are NAs I want to remove any rows without complete information. I won’t be able to later use those rows in regression analysis, etc.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2hvdyBtYW55IHJvd3Mgd2VyZSByZW1vdmVkP1xuKG5yb3coZGF0YSktbnJvdyh0aXRhbmljKSlcblxuYGBgIn0= -->
+<pre class="r"><code>#how many rows were removed?
+(nrow(data)-nrow(titanic))
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE3N1xuIn0= -->
+<pre><code>[1] 177</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>177 rows were removed for missing records from the original training set.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTJ9LCJyZGYiOiJINHNJQUFBQUFBQUFBKzJXVzJnY1ZSakg1OHhzVXJOTm0yQ2x0WW82QllVVW0wMDJtNnMza3E0SmFXeVNOWnZTb0lLZTdKN3NEcG1kVFdkMzA2NHZWdEFIOFFLK0NGWlJvWWdvQ0lyb2c5STNiMGhGVkVRZkZNVGJpMUxVRnhHbDlUZVpPWEd6aWVpejlNQ1BPZGR2dnY5ODN6bG41bTVkU01VWDRvWmhXRWJNTUEycmhhclJjbVIrb252WU1HSW1EY0ZBVy9BOHdhUmRWTnBoQjdTdURScUd1YmFhMmNGSzJOWXdia1J6Tkxyb2NTdnFiMzUycm8ySEw5NXowSmMxTDMvQW52WVQ5dXh4NWRtVDB2ZWRTalNjU3RkS2psZW9CT09WaEQxVkxubzJLL0t1cXR0ZEUyN1pWMTVPMGVNVUNoVjd2aWpyeXQ4ZkxkMDlxWnpsWmNkVEhvdWRDcXNQUzhlVDBlaUJpVnJWVjY2cnRHV1pPMVpURlh0U3lXclI3anJzdUhWN1d0YnRqRkt1dG5qNUdQTzkwTldqanVzNnNzUjh6NjlyTGRPNXRQU3J4WG80WmQ0cGxXbllVMDJTWXlYcHFxamV1cVQrWXl1MnFXNFlPNE5abzRQaFZ4OU5SODhib3VmWXlZM1AyellGcURGd1d3WHduMHFqbXJheG5nRzdMNWtjU2tZZGwyVFNkbkpvWUdRa2FuZG01MmRuZW1iN0VuWXEyWnZzRys3VDhwTEoxSEJ2U3JkU1E2bitnZDZvMVpJYzZoOU1yU3U4S2xKMCt5ZjducGc3YzlQb05hK2xnakk2OWNoWnlvZWo5dDRuS2FkR0Q1MWJDa3FUaDBiMHROTERBMDFkc1hTeUw5VThiYngvc01tQ3lPcEtlbFBQVnBXTmU2dkZreVZWaVV5MlI1M2JNN0pTVVY1QitZZnkrc05sYS82cXM2cDB1eldUYzVta1haM0Jpbll4cTA3bzZsaEI5N1prbmNYc2ltNWtwSjhyYWt2elRtNVpWYldsQ2VtdnIwbkxSY2ZURG95WEZxVy9qQU1iQmJSNU1pRnpWYWZzOGI0Z04xNk44dU5TdUF5dWhDQkdWNE1OKytBNnVCNFMwQU85a0FST0htTU1Ec0kwekFCZnpGaUFleUNJbmd1OHk3Z1g3b1A3NFZGNENwNkY1K0FGZURIeTVYVjRBOTZFdCtBZGVBOCtnTS9oYS9nQmZvSmY0RmY0QTMza3ZPQlFFNGdVSGNBQktIWURXa1FYNEwvb0JqUUkvQmY0TDhoS01RN3NKakVMR2JnTDhGM2tvQUJGS01FS0hBc1BWNEVHOFNDY0FuU0lwK0VaUUl0NEhsNkNsK0VWT0FOdkF4b0VHc1JaK0JnK2hjOEFUZUpMK0FiUUpYNkVud0ZkNGpmNE16eTNUV0prYmdkaVpwSjhKckV5MFdjU0wvTmEyQTlvTTlGbDlzTUFqTUF0d0dsaUhnTGlZODdCRVRnS2Q4Q2RRSktZbkVFbThUSlhnVmlaSitFQmVBZ2Voc2ZnY1VDcmlWYnpOQkF6azNpWnhNcDhGOTZIaitBTCtBcStoZS9nZS9nZExwQnp4TWxDaTBXY0xQUllhTEgyd0Y2NEFvaU54YWxuM1FnM0Izc0NKbUFTaUpHRi94WXhzb2lSaGM5V0dlcGhrZ2YyalhORytNRjB3bmZrMVpMeWZaVy91MUwxdVg2YWhtT0xzcUtpdmgzRzMzZmErWWEraTF2azRoYjVIMnlSOWZ3Mnd2emVlTEdGOTFPWS9PdWJvMXh5cWx0TWJ2UEx4eFA2SnZ5WFA4eGdZZXVGSnNQeHZLekt4SklmWElPYnpXOHJyd1FYRk1iTlhaR2h4c1hDYityb3FIbUJNL251WExIbUxYY0gyeTRlT1NRYVpMYzIxTnNiVG96T3RYZEV0eXZYT0wrWitxTzRjbEc1VVdNbm90YzBKMVk0Ui9RRkhLZTNrcWlXcTFMUGkrZktydTRKejVIemZ3R2I1YWpHdlFzQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["PassengerId"],"name":[1],"type":["int"],"align":["right"]},{"label":["Survived"],"name":[2],"type":["int"],"align":["right"]},{"label":["Pclass"],"name":[3],"type":["int"],"align":["right"]},{"label":["Name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Sex"],"name":[5],"type":["chr"],"align":["left"]},{"label":["Age"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SibSp"],"name":[7],"type":["int"],"align":["right"]},{"label":["Parch"],"name":[8],"type":["int"],"align":["right"]},{"label":["Ticket"],"name":[9],"type":["chr"],"align":["left"]},{"label":["Fare"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["Cabin"],"name":[11],"type":["chr"],"align":["left"]},{"label":["Embarked"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"0","3":"3","4":"Braund, Mr. Owen Harris","5":"male","6":"22","7":"1","8":"0","9":"A/5 21171","10":"7.2500","11":"","12":"S","_rn_":"1"},{"1":"2","2":"1","3":"1","4":"Cumings, Mrs. John Bradley (Florence Briggs Thayer)","5":"female","6":"38","7":"1","8":"0","9":"PC 17599","10":"71.2833","11":"C85","12":"C","_rn_":"2"},{"1":"3","2":"1","3":"3","4":"Heikkinen, Miss. Laina","5":"female","6":"26","7":"0","8":"0","9":"STON/O2. 3101282","10":"7.9250","11":"","12":"S","_rn_":"3"},{"1":"4","2":"1","3":"1","4":"Futrelle, Mrs. Jacques Heath (Lily May Peel)","5":"female","6":"35","7":"1","8":"0","9":"113803","10":"53.1000","11":"C123","12":"S","_rn_":"4"},{"1":"5","2":"0","3":"3","4":"Allen, Mr. William Henry","5":"male","6":"35","7":"0","8":"0","9":"373450","10":"8.0500","11":"","12":"S","_rn_":"5"},{"1":"7","2":"0","3":"1","4":"McCarthy, Mr. Timothy J","5":"male","6":"54","7":"0","8":"0","9":"17463","10":"51.8625","11":"E46","12":"S","_rn_":"7"}],"options":{"columns":{"min":{},"max":[10],"total":[12]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2ZpbmQgdGhlIGF2ZXJhZ2Ugb2YgdmFyaWFibGVzIHdpdGggbnVtZXJpY2FsIHZhbHVlXG5tZWFuKHRpdGFuaWMkQWdlKVxuYGBgIn0= -->
+<pre class="r"><code>#find the average of variables with numerical value
+mean(titanic$Age)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI5LjY5OTEyXG4ifQ== -->
+<pre><code>[1] 29.69912</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbih0aXRhbmljJEZhcmUpXG5gYGAifQ== -->
+<pre class="r"><code>mean(titanic$Fare)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDM0LjY5NDUxXG4ifQ== -->
+<pre><code>[1] 34.69451</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Average age of the passengers was very young at 29. Average fare for the Titanic was $34.69.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGl0YW5pYyBQcm9qZWN0IgphdXRob3I6ICJLYXRqYSBKYW5lbGxlIgpkYXRlOiAiU2VwdGVtYmVyIDE2dGgsIDIwMjEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KClRoaXMgaXMgdGhlIFRpdGFuaWMgcHJvamVjdCBmcm9tIEthZ2dsZSBmb3IgTWFjaGluZSBMZWFybmluZy4gIEknbSB1c2luZyB0aGlzIGZpbGUgYXMgYSBwcmFjdGljZSBmb3IgYW5hbHl6aW5nIGRhdGFzZXRzIGFzIHdlbGwgYXMgcHJhY3RpY2luZyBzdGF0aXN0aWNhbCBhbmFseXNpcyBtZXRob2RzLiAgCgpgYGB7ciBpbmNsdWRlID1GQUxTRX0KI2ltcG9ydCB0aGUgdHJhaW5pbmcgZGF0YSBzZXQKZGF0YSA8LSByZWFkLmNzdigidHJhaW4uY3N2IikKCiNsb2FkIHBhY2thZ2VzIApgYGAKCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDbWQrT3B0aW9uK0kqLgoKV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDbWQrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4gCgpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGl0YW5pYyBQcm9qZWN0IgphdXRob3I6ICJLYXRqYSBKYW5lbGxlIgpkYXRlOiAiU2VwdGVtYmVyIDE2dGgsIDIwMjEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KClRoaXMgaXMgdGhlIFRpdGFuaWMgcHJvamVjdCBmcm9tIEthZ2dsZSBmb3IgTWFjaGluZSBMZWFybmluZy4gIEknbSB1c2luZyB0aGlzIGZpbGUgYXMgYSBwcmFjdGljZSBmb3IgYW5hbHl6aW5nIGRhdGFzZXRzIGFzIHdlbGwgYXMgcHJhY3RpY2luZyBzdGF0aXN0aWNhbCBhbmFseXNpcyBtZXRob2RzLiAgCgpgYGB7cn0KI2ltcG9ydCB0aGUgdHJhaW5pbmcgZGF0YSBzZXQKZGF0YSA8LSByZWFkLmNzdigidHJhaW4uY3N2IikKCiNsb2FkIHBhY2thZ2VzIApgYGAKCgpgYGB7cn0KI3JldmlldyB0aGUgc3RydWN0dXJlIG9mIHRoZSBkYXRhIApzdHIoZGF0YSkKYGBgCipub3RlIGZyb20gS2FnZ2xlIHRoYXQgU2lic3AgPSB0aGUgbnVtYmVyIG9mIHNpYmxpbmdzIG9yIHNwb3VzZSBvbiB0aGUgdGl0YW5pYyBhbmQgUGFyY2ggPSBudW1iZXIgb2YgcGFyZW50cyBvciBjaGlsZHJlbiBvbiB0aGUgdGl0YW5pYyogCgpTaW5jZSB0aGVyZSBhcmUgTkFzIEkgd2FudCB0byByZW1vdmUgYW55IHJvd3Mgd2l0aG91dCBjb21wbGV0ZSBpbmZvcm1hdGlvbi4gSSB3b24ndCBiZSBhYmxlIHRvIGxhdGVyIHVzZSB0aG9zZSByb3dzIGluIHJlZ3Jlc3Npb24gYW5hbHlzaXMsIGV0Yy4gIAoKYGBge3J9CiNyZW1vdmUgTkFzIAp0aXRhbmljIDwtIG5hLm9taXQoZGF0YSkKCiNob3cgbWFueSByb3dzIHdlcmUgcmVtb3ZlZD8KKG5yb3coZGF0YSktbnJvdyh0aXRhbmljKSkKYGBgCjE3NyByb3dzIHdlcmUgcmVtb3ZlZCBmb3IgbWlzc2luZyByZWNvcmRzIGZyb20gdGhlIG9yaWdpbmFsIHRyYWluaW5nIHNldC4gIAoKYGBge3J9CiN2aWV3IHRoZSBmaXJzdCBmZXcgcm93cyBvZiB0aGUgdHJhaW5pbmcgc2V0CmhlYWQodGl0YW5pYykKYGBgCgpgYGB7cn0KI2ZpbmQgdGhlIGF2ZXJhZ2Ugb2YgdmFyaWFibGVzIHdpdGggbnVtZXJpY2FsIHZhbHVlCm1lYW4odGl0YW5pYyRBZ2UpCm1lYW4odGl0YW5pYyRGYXJlKQpgYGAKQXZlcmFnZSBhZ2Ugb2YgdGhlIHBhc3NlbmdlcnMgd2FzIHZlcnkgeW91bmcgYXQgMjkuIEF2ZXJhZ2UgZmFyZSBmb3IgdGhlIFRpdGFuaWMgd2FzICQzNC42OS4gIAogIAogIAoK</div>
 
 
 
