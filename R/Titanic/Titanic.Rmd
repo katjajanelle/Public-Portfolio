@@ -12,7 +12,6 @@ This is the Titanic project from Kaggle for Machine Learning.  I'm using this fi
 data <- read.csv("train.csv")
 
 #load packages 
-
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
