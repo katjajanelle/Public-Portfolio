@@ -4,22 +4,32 @@ author: "Katja Janelle"
 date: "September 16th, 2021"
 output: html_notebook
 ---
+# Project Introduction  
+  
 
 This is the Titanic project from Kaggle for Machine Learning.  I'm using this file as a practice for analyzing datasets as well as practicing statistical analysis methods.  
+https://www.kaggle.com/c/titanic  
+  
+***
+  
+# Loading Data and Packages  
 
 ```{r}
 #import the training data set
 data <- read.csv("train.csv")
 
 #load packages 
+library(dplyr)  #using pipes, data manipulation like select, mutuate, etc
 ```
-
+***  
+# Exploring the Data  
 
 ```{r}
 #review the structure of the data 
 str(data)
 ```
-*note from Kaggle that Sibsp = the number of siblings or spouse on the titanic and Parch = number of parents or children on the titanic* 
+*note from Kaggle that Sibsp = the number of siblings or spouse on the titanic and Parch = number of parents or children on the titanic.*  
+*for Embarked: C = Cherbourg, Q = Queenstown, S = Southampton*  
 
 Since there are NAs I want to remove any rows without complete information. I won't be able to later use those rows in regression analysis, etc.  
 
@@ -36,13 +46,56 @@ titanic <- na.omit(data)
 #view the first few rows of the training set
 head(titanic)
 ```
+It's interesting to note that ticket seems to have varying naming conventions even within the class types. Third class doesn't seem to list cabin number with their tickets?  
 
 ```{r}
-#find the average of variables with numerical value
-mean(titanic$Age)
-mean(titanic$Fare)
+titanic %>%
+    filter(Pclass == 3) #filtering data to only show third class passengers
+    
 ```
-Average age of the passengers was very young at 29. Average fare for the Titanic was $34.69.  
+Most cabins are blank for third class passengers. Will need to keep that in mind if I want to use cabin in any analysis.  
+
+***  
+# Descriptive Statistics  
   
+```{r}
+#summary of median, mean etc for numeric variables.
+summary(titanic$Age)
+summary(titanic$Fare)
+```
+Average age of the passengers was very young at 30. Eldest passenger was 80 and the youngest was an infant.  
+  
+Average fare for the Titanic was $34.69. With the median fare being 15.74, it shows that the first class fares did skew the average higher.    
+  
+In 1912 (the year the Titanic set sail/sank), the inflation of that average ticket cost is $978.35 in today's dollars.  
+(Source: https://www.in2013dollars.com/us/inflation/1912?amount=34.69)
+  
+
+```{r}
+#count of different variables 
+
+titanic %>%
+    group_by(Sex) %>%
+    count()
+
+titanic %>% 
+    group_by(SibSp) %>%
+    count()
+
+titanic %>%
+    group_by(Parch) %>%
+    count()
+
+titanic %>%
+    group_by(Embarked) %>%
+    count()
+
+```
+About a third of passengers on the Titanic were female with two thirds male.  
+  
+Most people were traveling alone on the Titanic with 471 individuals traveling without siblings or spouses and 521 not traveling with parent or children.  
+  
+Most people got on the Titanic at Southampton, England (which was the initial stop of the three). The second stop at Cherbourg, England has the second highest and the final stop before embarking for New York (Queenstown, France) has the least amount of passengers in this dataset.  
+*Source: https://titanicfacts.net/titanic-maiden-voyage/*  
   
 
