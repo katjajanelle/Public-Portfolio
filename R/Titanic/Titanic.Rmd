@@ -77,25 +77,36 @@ In 1912 (the year the Titanic set sail/sank), the inflation of that average tick
 titanic %>%
     group_by(Sex) %>%
     count()
-
+```
+  
+About a third of passengers on the Titanic were female with two thirds male.  
+  
+```{r}
 titanic %>% 
     group_by(SibSp) %>%
     count()
 
+```
+
+```{r}
 titanic %>%
     group_by(Parch) %>%
     count()
+```
 
+```{r}
 titanic %>%
     group_by(Embarked) %>%
     count()
 
 ```
-About a third of passengers on the Titanic were female with two thirds male.  
+ 
   
 Most people were traveling alone on the Titanic with 471 individuals traveling without siblings or spouses and 521 not traveling with parent or children.  
   
 Most people got on the Titanic at Southampton, England (which was the initial stop of the three). The second stop at Cherbourg, England has the second highest and the final stop before embarking for New York (Queenstown, France) has the least amount of passengers in this dataset.  
 *Source: https://titanicfacts.net/titanic-maiden-voyage/*  
   
-
+***
+  
+# Statistical Analysis  
