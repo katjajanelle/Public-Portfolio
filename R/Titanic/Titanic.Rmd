@@ -107,7 +107,7 @@ titanic %>%
 
 ```
   
-Most people got on the Titanic at Southampton, England (which was the initial stop of the three). The second stop at Cherbourg, England has the second highest and the final stop before embarking for New York (Queenstown, France) has the least amount of passengers in this dataset.  
+Most people got on the Titanic at Southampton, England (which was the initial stop of the three). The second stop at Cherbourg, France has the second hisghest and the final stop before embarking for New York (Queenstown, Ireland) has the least amount of passengers in this dataset.  
 *Source: https://titanicfacts.net/titanic-maiden-voyage/*  
   
 ***
