@@ -19,7 +19,9 @@ https://www.kaggle.com/c/titanic
 data <- read.csv("train.csv")
 
 #load packages 
-library(dplyr)  #using pipes, data manipulation like select, mutuate, etc
+library(dplyr)  #using pipes, data manipulation like select, mutate, etc
+library(ggplot2) #graphical packages  
+library(MASS) #AIC in logit analysis
 ```
 ***  
 # Exploring the Data  
@@ -61,10 +63,14 @@ Most cabins are blank for third class passengers. Will need to keep that in mind
 ```{r}
 #summary of median, mean etc for numeric variables.
 summary(titanic$Age)
-summary(titanic$Fare)
 ```
+  
 Average age of the passengers was very young at 30. Eldest passenger was 80 and the youngest was an infant.  
   
+```{r}
+summary(titanic$Fare)
+```
+
 Average fare for the Titanic was $34.69. With the median fare being 15.74, it shows that the first class fares did skew the average higher.    
   
 In 1912 (the year the Titanic set sail/sank), the inflation of that average ticket cost is $978.35 in today's dollars.  
@@ -86,23 +92,20 @@ titanic %>%
     group_by(SibSp) %>%
     count()
 
-```
-
-```{r}
 titanic %>%
     group_by(Parch) %>%
     count()
 ```
-
+  
+Most people were traveling alone on the Titanic with 471 individuals traveling without siblings or spouses and 521 not traveling with parent or children.  
+  
+  
 ```{r}
 titanic %>%
     group_by(Embarked) %>%
     count()
 
 ```
- 
-  
-Most people were traveling alone on the Titanic with 471 individuals traveling without siblings or spouses and 521 not traveling with parent or children.  
   
 Most people got on the Titanic at Southampton, England (which was the initial stop of the three). The second stop at Cherbourg, England has the second highest and the final stop before embarking for New York (Queenstown, France) has the least amount of passengers in this dataset.  
 *Source: https://titanicfacts.net/titanic-maiden-voyage/*  
@@ -110,3 +113,89 @@ Most people got on the Titanic at Southampton, England (which was the initial st
 ***
   
 # Statistical Analysis  
+  
+After reviewing the dataset, I want to concentrate on the class of the passenger, the sex of the passenger, and the age of the passenger variables for my analysis. In addition, I want to include Sibling / Spouse and Parent / Child variables because although most people were passengers as individuals, not families, I am curious to see if that made an impact on survival.   
+   
+Class of ticket will determine price paid for the ticket so not including the Fare variable due to overlap in affect. Ticket number doesn't seem to have any type of consistent naming or impact so I will not include it in my analysis. Since cabin number isn't included on most third class passengers, I will also disclude this variable. I believe class of ticket has a greater impact on survival than which end of the ship you were staying in.  
+  
+Since 3/4 of the passengers boarded from Southampton, I don't think it will be a useful variable for analysis of survival rate.  
+  
+Because of the data's binary dependent variable (whether or not someone will live or die), I cannot use typical linear regression models for this project. I will need to use a binary logistic regression (where the answer is a yes/no or a pass/fail).  
+  
+***
+  
+### Logistic Regression   
+  
+```{r}
+#turn categorical variables into factors so they can be used in regression analysis
+titanic$Pclass <- as.factor(titanic$Pclass)
+titanic$Sex <- as.factor(titanic$Sex)
+
+```
+
+```{r}
+#create the model
+titanic_logit <- glm(titanic$Survived ~ titanic$Pclass + titanic$Sex + titanic$Age + titanic$SibSp + titanic$Parch, data = titanic, family = "binomial")
+
+summary(titanic_logit)
+
+```
+
+Holding all other variables constant, the ticket class, gender, and age independent variables are all highly statistically significant at the 0% level. Sibling/spouse variable is statistically significant at the .1% level holding all other variables constant. And the Parent/children variable is not statistically significant at all.  
+   
+In regards to the passenger's ticket class, the log odds of surviving in comparison to first class decreases by -1.42 for a second class passenger and decreases by -2.65 for a third class passenger. Being a male instead of a female decreases the log odds for surviving by -2.64. For every year increase in age, the log odds of surviving decreases by -.04. For every increase in sibling or spouse, the log odds of surviving decreases by -.37. For every increase in parent or child, the log odds of surviving decreases by -.04.  
+
+Looking at the statistical significance of ticket class, gender, and age, I know that I would want to include those variables in my model. And I know due to it not being statistically significant, that I wouldn't want to include the Parent/Child variable. There could be some overlap of variation between the Parent/Child variable and the Sibling/Spouse variable. But do I want to include the Sibling/Spouse variable? I'm going to run a function that will try to minimize the AIC from 650.46 to determine if that variable should be included or not.  
+  
+```{r}
+#running AIC model function
+titanic_logit2 <- stepAIC(titanic_logit)
+summary(titanic_logit2)
+```
+Based on the AIC, I would want to include the Sibling/Spouse variable and not include Parent/Child variable in my model as the AIC is slightly lower at 648.56 versus the original 650.46 with Parent/Child.  
+  
+```{r}
+#analyzing the distribution of survivors
+summary(titanic_logit2$fitted.values)
+```
+It looks like based upon the median and the mean being at 30% and 40% respectively that most people don't survive based on this model. But I'm a more visual person, so let's take a look at the fitted values in graph form.  
+  
+```{r}
+#creating histogram of the fitted values of the AIC model
+hist(titanic_logit2$fitted.values,main = " Histogram ",xlab = "Probability of Survival of the Titanic", col = 'light blue')
+```
+As I suspected, most values are closer to 0 (death) than 1 (living).  
+  
+***
+  
+# Model Accuracy
+  
+Now that I've calculated the model, let's take a look at the accuracy of the model.  
+  
+```{r}
+#putting values into new column of titanic dataset to compare model accuracy with rounding at .5 
+titanic$Predict <- ifelse(titanic_logit2$fitted.values >0.5,1,0)
+
+```
+
+```{r}
+results <- table(titanic$Survived,titanic$Predict)
+rownames(results) <- c("Obs. death","Obs. survival")
+colnames(results) <- c("Pred. death","Pred. survival")
+results
+```
+
+```{r}
+efficiency <- sum(diag(results))/sum(results)
+efficiency
+
+```
+The logistic model that I created for predicting survival or death of passengers on the Titanic has an 80% accuracy rate.  
+  
+***
+  
+# Conclusion
+  
+The variables passenger class, sex, age, and number of siblings/spouse that each passenger had played a statistically significant factor in the survival of each passenger aboard the Titanic. The first class (or wealthier) passengers had a higher survival rate than those in second class and the second class had more likelihood than the third class of surviving in comparison to those in first class. Women had a higher chance of survival than men. Younger passengers had a higher chance of survival than older passengers. And lastly, having more siblings or spouses onboard decreased your chance of survival.  
+  
+The model that I created used those factors in determining each passenger's survival and had an accuracy of 80% in comparison to the given training dataset.  
