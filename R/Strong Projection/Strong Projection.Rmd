@@ -1,0 +1,118 @@
+---
+title: "Strong Projection"
+author: "Katja Janelle"
+date: "11/22/2021"
+output: html_document
+---
+# Project Introduction
+  
+  
+This project was a request from my co-worker to help create graphical illustrations for a business plan he is creating. He sent me his original data file he made calculations in Excel for which I have scrubbed to be uniform and easier for data wrangling. He is investing in an alternative cryptocurrency, Strong, and has provided me with all data according to his market assumptions.  
+  
+He is interested in having similar graphs to this: https://www.listenmoneymatters.com/wp-content/uploads/2019/03/LMM-Screenshots-Slider-1-1.jpg  
+  
+But he would like one for both post and pre-tax gains for each model.  
+  
+***
+
+# Loading Data and Packages and Checking the Data
+
+```{r}
+#clear environment
+rm(list=ls())
+
+#import data file
+strong <- read.csv("Strong_Data.csv")
+
+#load packages needed
+library(ggplot2) #graphing package
+library(dplyr)   #pipes, mutate, etc
+library(scales)  #changing scales on graph
+library(ggpubr)  #ggarrange
+```
+
+```{r}
+#checking that the data pulled in correctly to my data object
+head(strong)
+```
+  
+```{r}
+#creating data frames one for post tax and one for net his reinvestment 
+
+posttax <- strong %>%
+                summarise(Month, Low_Strong_PostTax, Current_Strong_PostTax, High_Strong_PostTax, Highest_Strong_PostTax)
+
+net <- strong %>%
+                summarise(Month, Low_Strong_Net, Current_Strong_Net, High_Strong_Net, Highest_Strong_Net)
+                
+```
+
+
+***
+  
+# Creating Graph Designs
+  
+Since there are many options that I can give to him (yay customization of R!), I'm going to create a few for styling purposes and see what he likes best before creating a function for easy plug and play.  
+  
+```{r}
+posttax %>%
+    ggplot(aes(Month))+
+    geom_line(aes(y = Low_Strong_PostTax, color = "blue")) +
+    geom_line(aes(y= Current_Strong_PostTax, color = "red")) +
+    #geom_line(aes(y= High_Strong_PostTax))+
+    geom_line(aes(y=Highest_Strong_PostTax, color = "green")) +
+    geom_line(aes(y=90000))+ #initial investment amount line like in 
+    labs(y = 'Dollar Amount') +
+    scale_y_continuous(labels = dollar)+
+    theme_minimal()+
+    theme(axis.text.y = element_text(angle = 45))
+
+```
+
+Plot line are far too grouped together. What does it look like with those plots separated but grouped together on one space?  
+  
+```{r}
+low <- posttax %>%
+          ggplot(aes(Month))+
+          geom_line(aes(y = Low_Strong_PostTax)) +
+          geom_line(aes(y=90000))+ #initial investment amount line like in 
+          labs(y = 'Dollar Amount') +
+          scale_y_continuous(labels = dollar)+
+          theme_minimal()+
+          theme(axis.text.y = element_text(angle = 45))
+
+current <- posttax %>%
+              ggplot(aes(Month))+
+              geom_line(aes(y = Current_Strong_PostTax)) +
+              geom_line(aes(y=90000))+ #initial investment amount line like in 
+              labs(y = 'Dollar Amount') +
+              scale_y_continuous(labels = dollar)+
+              theme_minimal()+
+              theme(axis.text.y = element_text(angle = 45))
+
+high <- posttax %>%
+              ggplot(aes(Month))+
+              geom_line(aes(y = High_Strong_PostTax)) +
+              geom_line(aes(y=90000))+ #initial investment amount line like in 
+              labs(y = 'Dollar Amount') +
+              scale_y_continuous(labels = dollar)+
+              theme_minimal()+
+              theme(axis.text.y = element_text(angle = 45))
+
+highest <- posttax %>%
+              ggplot(aes(Month))+
+              geom_line(aes(y = Highest_Strong_PostTax)) +
+              geom_line(aes(y=90000))+ #initial investment amount line like in 
+              labs(y = 'Dollar Amount') +
+              scale_y_continuous(labels = dollar)+
+              theme_minimal()+
+              theme(axis.text.y = element_text(angle = 45))
+
+
+ggarrange(low, current, high, highest, 
+          ncol = 2,
+          nrow = 2)
+
+```
+
+
