@@ -115,4 +115,41 @@ ggarrange(low, current, high, highest,
 
 ```
 
+Also can't really tell the distinction between the four groupings. Let's try zooming in on the axis to show month 15 and onward.  
+  
+```{r}
+posttax %>%
+    ggplot(aes(Month))+
+    geom_line(aes(y = Low_Strong_PostTax, color = "blue")) +
+    geom_line(aes(y= Current_Strong_PostTax, color = "red")) +
+    geom_line(aes(y= High_Strong_PostTax, color = "purple"))+
+    geom_line(aes(y=Highest_Strong_PostTax, color = "green")) +
+    #geom_line(aes(y=90000))+ #initial investment amount line like in 
+    labs(y = 'Dollar Amount') +
+    scale_y_continuous(labels = dollar)+
+    #scale_fill_discrete(name = "Estimates", labels = c("Low", "Current", "High", "Highest")) +
+    xlim(30,36)+
+    ylim(1000000,6000000)+
+    theme_minimal()+
+    theme(axis.text.y = element_text(angle = 45)) 
+    
+
+
+```
+
+This still doesn't show enough variation. Let's try a different kind(s) of graphs.  
+
+## Bar Graphs
+  
+```{r}
+#filter to row of data with only year one (month = 12)
+posttax_year1 <- posttax %>%
+                    filter(Month == 12) #%>%
+                    #subset(select = -c(Month))
+
+```
+
+
+
+
 
